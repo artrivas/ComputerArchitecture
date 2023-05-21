@@ -1,0 +1,52 @@
+$date
+	Wed Apr  5 15:44:37 2023
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module tb_2_mux_2to1 $end
+$var wire 1 ! y $end
+$var reg 1 " a $end
+$var reg 1 # b $end
+$var reg 1 $ c $end
+$scope module mux $end
+$var wire 1 " a $end
+$var wire 1 # b $end
+$var wire 1 $ c $end
+$var wire 1 ! y $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+0$
+0#
+0"
+0!
+$end
+#1
+1$
+#2
+0$
+1#
+#3
+1!
+1$
+#4
+1!
+0$
+0#
+1"
+#5
+0!
+1$
+#6
+1!
+0$
+1#
+#7
+1$
+#8

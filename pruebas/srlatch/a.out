@@ -1,0 +1,62 @@
+#! /usr/bin/vvp
+:ivl_version "11.0 (stable)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/system.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/vhdl_sys.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/vhdl_textio.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/v2005_math.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/va_math.vpi";
+S_0x5626add4b220 .scope module, "test_bench" "test_bench" 2 10;
+ .timescale 0 0;
+v0x5626add5d9e0_0 .net "Q", 0 0, L_0x5626add5dd40;  1 drivers
+v0x5626add5daa0_0 .net "Qn", 0 0, L_0x5626add5dea0;  1 drivers
+v0x5626add5db70_0 .var "r", 0 0;
+v0x5626add5dc70_0 .var "s", 0 0;
+S_0x5626add4b3b0 .scope module, "gate" "srlatch_structural" 2 13, 2 1 0, S_0x5626add4b220;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "Q";
+    .port_info 1 /OUTPUT 1 "Qn";
+    .port_info 2 /INPUT 1 "S";
+    .port_info 3 /INPUT 1 "R";
+L_0x5626add5dd40 .functor NOR 1, v0x5626add5db70_0, L_0x5626add5dea0, C4<0>, C4<0>;
+L_0x5626add5dea0 .functor NOR 1, v0x5626add5dc70_0, L_0x5626add5dd40, C4<0>, C4<0>;
+v0x5626add13ba0_0 .net "Q", 0 0, L_0x5626add5dd40;  alias, 1 drivers
+v0x5626add5d6e0_0 .net "Qn", 0 0, L_0x5626add5dea0;  alias, 1 drivers
+v0x5626add5d7a0_0 .net "R", 0 0, v0x5626add5db70_0;  1 drivers
+v0x5626add5d870_0 .net "S", 0 0, v0x5626add5dc70_0;  1 drivers
+    .scope S_0x5626add4b220;
+T_0 ;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x5626add5dc70_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x5626add5db70_0, 0, 1;
+    %delay 1, 0;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x5626add5dc70_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x5626add5db70_0, 0, 1;
+    %delay 1, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x5626add5dc70_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x5626add5db70_0, 0, 1;
+    %delay 1, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x5626add5dc70_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x5626add5db70_0, 0, 1;
+    %delay 1, 0;
+    %vpi_call 2 23 "$finish" {0 0 0};
+    %end;
+    .thread T_0;
+    .scope S_0x5626add4b220;
+T_1 ;
+    %vpi_call 2 26 "$monitor", "%2d:\011s = %b\011r=%b\011Q = %b\011Qn = %b", $time, v0x5626add5dc70_0, v0x5626add5db70_0, v0x5626add5d9e0_0, v0x5626add5daa0_0 {0 0 0};
+    %end;
+    .thread T_1;
+# The file index is used to find the file name in the following table.
+:file_names 3;
+    "N/A";
+    "<interactive>";
+    "srlatch_structural.v";
