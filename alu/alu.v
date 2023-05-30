@@ -1,13 +1,13 @@
-module alu(a,b,ALUControl,ALUFlags, out,enable,clk,reset);
+module alu(a,b,ALUControl,ALUFlags, out,enable,clk,reset, Result);
 //Input and outputs
 input [4:0] a,b;
 input [1:0] ALUControl;
 output wire [3:0] ALUFlags;
 output reg[7:0] out;
 output reg[3:0] enable;
+output reg [8:0] Result; //Resultado de 8 bits, 1 bit para el signo y los 4 bits para la suma de los numeros
 
 //Wire and reg
-reg [8:0] Result; //Resultado de 8 bits, 1 bit para el signo y los 4 bits para la suma de los numeros
 wire  neg,zero,carry,overflow;
 wire [9:0] sum; //Un bit adicional para el overflow
 
@@ -50,7 +50,8 @@ begin
     case(LED_activating_counter)
     2'b00: begin //First digit
         enable = 4'b0111; 
-        LED_BCD = Result[8:4];
+        LED_BCD[4] = Result[8];
+        LED_BCD[3:0] = Result[7:4];
           end
     2'b01: begin //Second digit
         enable = 4'b1011; 
@@ -70,25 +71,25 @@ end
 
 always @(*)
 begin
-    out[7] = LED_BCD[4];
+    out[7] <= LED_BCD[4];
     case(LED_BCD[3:0])
-        4'b0000 : out<=7'b0000001;    //Display 0
-        4'b0001 : out<=7'b1001111;    //Display 1
-        4'b0010 : out<=7'b0010010;    //Display 2
-        4'b0011 : out<=7'b0000110;    //Display 3
-        4'b0100 : out<=7'b1001100;    //Display 4
-        4'b0101 : out<=7'b0100100;    //Display 5
-        4'b0110 : out<=7'b0100000;    //Display 6
-        4'b0111 : out<=7'b0001111;    //Display 7
-        4'b1000 : out<=7'b0000000;    //Display 8
-        4'b1001 : out<=7'b0001100;    //Display 9
-        4'b1010 : out<=7'b0001000;    //Display A
-        4'b1011 : out<=7'b1100000;    //Display b
-        4'b1100 : out<=7'b0110001;    //Display C
-        4'b1101 : out<=7'b1000010;    //Display d
-        4'b1110 : out<=7'b0110000;    //Display E
-        4'b1111 : out<=7'b0111000;    //Display F
-        default: out = 7'b0000001; // "0"
+        4'b0000 : out[6:0] <=7'b0000001;    //Display 0
+        4'b0001 : out[6:0] <=7'b1001111;    //Display 1
+        4'b0010 : out[6:0]<=7'b0010010;    //Display 2
+        4'b0011 : out[6:0]<=7'b0000110;    //Display 3
+        4'b0100 : out[6:0]<=7'b1001100;    //Display 4
+        4'b0101 : out[6:0]<=7'b0100100;    //Display 5
+        4'b0110 : out[6:0]<=7'b0100000;    //Display 6
+        4'b0111 : out[6:0]<=7'b0001111;    //Display 7
+        4'b1000 : out[6:0]<=7'b0000000;    //Display 8
+        4'b1001 : out[6:0]<=7'b0001100;    //Display 9
+        4'b1010 : out[6:0]<=7'b0001000;    //Display A
+        4'b1011 : out[6:0]<=7'b1100000;    //Display b
+        4'b1100 : out[6:0]<=7'b0110001;    //Display C
+        4'b1101 : out[6:0]<=7'b1000010;    //Display d
+        4'b1110 : out[6:0]<=7'b0110000;    //Display E
+        4'b1111 : out[6:0]<=7'b0111000;    //Display F
+        default: out = 8'b00000001; // "0"
     endcase
 end
 
