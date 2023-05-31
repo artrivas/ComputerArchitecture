@@ -36,6 +36,7 @@ assign overflow = ~ALUControl[1] & ~(a[4] ^ b[4] ^ ALUControl[0]) & (a[4] ^ sum[
 
 assign ALUFlags = {neg, zero, carry, overflow};
 
+
 always @(posedge clk or posedge reset)
 begin 
     if(reset==1)
@@ -43,37 +44,50 @@ begin
     else
         refresh_counter <= refresh_counter + 1;
 end 
+
 assign LED_activating_counter = refresh_counter[19:18];
 
 always @(*)
 begin
+    if(Result < 0) begin
+        Result = ~Result;
+    end
+
     case(LED_activating_counter)
     2'b00: begin //First digit
         enable = 4'b0111; 
-        LED_BCD[4] = Result[8];
+        LED_BCD[4] = (neg ? 1:0); 
         LED_BCD[3:0] = Result[7:4];
-          end
+    end
     2'b01: begin //Second digit
         enable = 4'b1011; 
         LED_BCD[3:0] = Result[3:0];
         LED_BCD[4] = 0;
-          end
+    end
     2'b10: begin //a
         enable = 4'b1101; 
-        LED_BCD = a;
-            end
+        LED_BCD[4] = a[4];
+        if( a < 0)
+            LED_BCD[3:0] = ~a[3:0]+1;
+        else
+            LED_BCD[3:0] = a[3:0];
+    end
     2'b11: begin //b
         enable = 4'b1110; 
-        LED_BCD = b;
-        end
+        LED_BCD[4] = b[4];
+        if(b < 0)
+            LED_BCD[3:0] = ~b[3:0] +1;
+        else
+            LED_BCD[3:0] = b[3:0];
+    end
     endcase
 end
 
 always @(*)
 begin
-    out[7] <= LED_BCD[4];
+    out[7] <= ~LED_BCD[4];
     case(LED_BCD[3:0])
-        4'b0000 : out[6:0] <=7'b0000001;    //Display 0
+        4'b0000 : out[6:0] <= 7'b0000001;    //Display 0
         4'b0001 : out[6:0] <=7'b1001111;    //Display 1
         4'b0010 : out[6:0]<=7'b0010010;    //Display 2
         4'b0011 : out[6:0]<=7'b0000110;    //Display 3
@@ -95,3 +109,4 @@ end
 
 
 endmodule
+
