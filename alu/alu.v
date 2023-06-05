@@ -51,6 +51,7 @@ always @(*)
 begin
     if(Result < 0) begin
         Result = ~Result;
+        Result = Result+1;
     end
 
     case(LED_activating_counter)
